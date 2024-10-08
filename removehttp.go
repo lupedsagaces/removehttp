@@ -8,22 +8,21 @@ import (
 )
 
 func main() {
+	var scanner *bufio.Scanner
+
 	// Verifica se o arquivo foi passado como argumento
-	if len(os.Args) < 2 {
-		fmt.Println("Usage: removehttp <file.txt>")
-		return
+	if len(os.Args) > 1 {
+		file, err := os.Open(os.Args[1])
+		if err != nil {
+			fmt.Printf("Erro ao abrir o arquivo: %v\n", err)
+			return
+		}
+		defer file.Close()
+		scanner = bufio.NewScanner(file)
+	} else {
+		// Caso contrário, lê da entrada padrão (pipe)
+		scanner = bufio.NewScanner(os.Stdin)
 	}
-
-	// Abre o arquivo
-	file, err := os.Open(os.Args[1])
-	if err != nil {
-		fmt.Printf("Erro ao abrir o arquivo: %v\n", err)
-		return
-	}
-	defer file.Close()
-
-	// Scanner para ler o arquivo linha por linha
-	scanner := bufio.NewScanner(file)
 
 	// Processa cada linha
 	for scanner.Scan() {
@@ -37,8 +36,8 @@ func main() {
 		fmt.Println(linhaSemProtocolo)
 	}
 
-	// Verifica se houve erros durante a leitura do arquivo
+	// Verifica se houve erros durante a leitura
 	if err := scanner.Err(); err != nil {
-		fmt.Printf("Erro ao ler o arquivo: %v\n", err)
+		fmt.Printf("Erro ao ler a entrada: %v\n", err)
 	}
 }
