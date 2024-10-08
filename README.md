@@ -21,7 +21,7 @@ https://developers.google.com
 Para rodar a ferramenta, use o seguinte comando:
 ```bash
 
-cat dominios.txt | removehttp
+removehttp [arquivo.txt]
 ```
 
 Isso irá remover http:// e https:// de cada linha do arquivo e retornar o resultado.
